@@ -38,28 +38,29 @@ pipeline {
           }
         }
 
-	stage('SCA') {
-	  steps {
-	    container(name: 'maven') {
-	      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                withEnv([
-                    "NVD_API_KEY=${env.NVD_API_KEY}",
-                    "OSSINDEX_USERNAME=${env.OSSINDEX_USERNAME}",
-                    "OSSINDEX_PASSWORD=${env.OSSINDEX_PASSWORD}"
-                ]) {
-                    sh 'mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${NVD_API_KEY}'
-                }
-              }
-	    }
-	  }
-	  post {
-	    always {
-	      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true,
-	      onlyIfSuccessful: true
-	      // dependencyCheckPublisher pattern: 'report.xml'
-	    }
-	  }
-        }
+stage('SCA') {
+  steps {
+    container(name: 'maven') {
+      withEnv(["NVD_API_KEY=${env.NVD_API_KEY}"]) {
+        sh '''
+          curl -L -o dependency-check.zip https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.9/dependency-check-12.1.9-release.zip
+          unzip -q dependency-check.zip
+          ./dependency-check/bin/dependency-check.sh \
+            --project "demo" \
+            --scan . \
+            --format "ALL" \
+            --out target/dependency-check-report \
+            --nvdApiKey ${NVD_API_KEY}
+        '''
+      }
+    }
+  }
+  post {
+    always {
+      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report/*', fingerprint: true
+    }
+  }
+}
 
 	stage('Generate SBOM') {
 	  steps {
