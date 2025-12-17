@@ -51,7 +51,8 @@ stage('SCA') {
             --scan . \
             --format "ALL" \
             --out target/dependency-check-report \
-            --nvdApiKey ${NVD_API_KEY}
+            --nvdApiKey ${NVD_API_KEY} \
+	    --nvdApiDelay 6000
         '''
       }
     }
