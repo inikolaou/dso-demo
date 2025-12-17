@@ -13,6 +13,13 @@ spec:
       volumeMounts:
         - name: m2
           mountPath: /root/.m2/
+      env:
+        - name: JAVA_HOME
+          value: /usr/local/openjdk-20
+      lifecycle:
+        postStart:
+          exec:
+            command: ["/bin/sh", "-c", "apt-get update && apt-get install -y unzip"]
     - name: docker-tools
       image: rmkanda/docker-tools:latest
       command:
