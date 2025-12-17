@@ -5,8 +5,14 @@ pipeline {
       defaultContainer 'maven'
       idleMinutes 1
     }
-
   }
+
+  environment {
+      NVD_API_KEY       = credentials('jenkins-nvd-api-key')
+      OSSINDEX_USERNAME = credentials('jenkins-oss-username')
+      OSSINDEX_PASSWORD = credentials('jenkins-oss-token')
+  }
+
   stages {
     stage('Build') {
       parallel {
