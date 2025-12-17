@@ -47,7 +47,7 @@ pipeline {
                     "OSSINDEX_USERNAME=${env.OSSINDEX_USERNAME}",
                     "OSSINDEX_PASSWORD=${env.OSSINDEX_PASSWORD}"
                 ]) {
-                    sh 'mvn org.owasp:dependency-check-maven:check'
+                    sh 'mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${NVD_API_KEY}'
                 }
               }
 	    }
