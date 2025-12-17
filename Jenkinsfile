@@ -52,7 +52,9 @@ stage('SCA') {
             --format "ALL" \
             --out target/dependency-check-report \
             --nvdApiKey ${NVD_API_KEY} \
-	    --nvdApiDelay 6000
+	    --nvdApiDelay 6000 \
+	    --ossIndexUsername "$OSS_USERNAME" \
+	    --ossIndexPassword "$OSS_PASSWORD"
         '''
       }
     }
