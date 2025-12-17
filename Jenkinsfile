@@ -42,8 +42,14 @@ pipeline {
 	  steps {
 	    container(name: 'maven') {
 	      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-	        sh 'mvn org.owasp:dependency-check-maven:check'
-	      }
+                withEnv([
+                    "NVD_API_KEY=${env.NVD_API_KEY}",
+                    "OSSINDEX_USERNAME=${env.OSSINDEX_USERNAME}",
+                    "OSSINDEX_PASSWORD=${env.OSSINDEX_PASSWORD}"
+                ]) {
+                    sh 'mvn org.owasp:dependency-check-maven:check'
+                }
+              }
 	    }
 	  }
 	  post {
