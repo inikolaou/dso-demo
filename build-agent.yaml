@@ -13,9 +13,6 @@ spec:
       volumeMounts:
         - name: m2
           mountPath: /root/.m2/
-      env:
-        - name: JAVA_HOME
-          value: /usr/local/openjdk-20
       lifecycle:
         postStart:
           exec:
