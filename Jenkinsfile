@@ -47,7 +47,7 @@ pipeline {
                     "OSSINDEX_USERNAME=${env.OSSINDEX_USERNAME}",
                     "OSSINDEX_PASSWORD=${env.OSSINDEX_PASSWORD}"
                 ]) {
-                    sh 'mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${NVD_API_KEY} -DnvdCveUrlModified=https://services.nvd.nist.gov/rest/json/cves/2.0'
+                    sh 'mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${NVD_API_KEY}'
                 }
               }
 	    }
