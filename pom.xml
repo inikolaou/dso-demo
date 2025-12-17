@@ -51,6 +51,7 @@
 					<failBuildOnCVSS>8</failBuildOnCVSS>
 					<nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
 					<nvdApiDelay>3000</nvdApiDelay>
+					<nvdDatafeedUrl>https://services.nvd.nist.gov/rest/json/cves/2.0</nvdDatafeedUrl>
 					<ossIndexUsername>${env.OSSINDEX_USERNAME}</ossIndexUsername>
 					<ossIndexPassword>${env.OSSINDEX_PASSWORD}</ossIndexPassword>
 				</configuration>
