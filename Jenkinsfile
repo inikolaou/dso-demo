@@ -46,6 +46,7 @@ stage('SCA') {
           curl -L -o dependency-check.zip https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.9/dependency-check-12.1.9-release.zip
           unzip -q dependency-check.zip
           ./dependency-check/bin/dependency-check.sh \
+	    --data ./dependency-check-data \
             --project "demo" \
             --scan . \
             --format "ALL" \
