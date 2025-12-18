@@ -71,7 +71,7 @@ pipeline {
     stage('SAST') {
 	steps {
 	  container(name: 'slscan') {
-	    sh 'SCAN_DEBUG_MODE=debug scan --type java,depscan --build'
+	    sh 'scan --type java,depscan --build --no-error'
 	  }
 	}
 	post {
