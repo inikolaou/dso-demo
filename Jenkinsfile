@@ -8,6 +8,7 @@ pipeline {
   }
 
   environment {
+      ARGO_SERVER       = 'localhost:30080'
       NVD_API_KEY       = credentials('jenkins-nvd-api-key')
       OSSINDEX_USERNAME = credentials('jenkins-oss-username')
       OSSINDEX_PASSWORD = credentials('jenkins-oss-token')
@@ -122,8 +123,12 @@ pipeline {
     }
 
     stage('Deploy to Dev') {
+      environment {
+	AUTH_TOKEN = credentials('argocd-jenkins-deployer-token')
+      }
       steps {
-        sh 'echo done'
+        sh 'docker run -t schoolofdevops/argocd-cli argocd app sync dso-demo --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
+	sh 'docker run -t schoolofdevops/argocd-cli argocd app wait dso-demo --health --timeout 300 --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
       }
     }
 
