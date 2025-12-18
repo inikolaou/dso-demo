@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BugCollection version="4.7.3" sequence="0" timestamp="1765890054323" analysisTimestamp="1765890054328" release="">
+<BugCollection version="4.7.3" sequence="0" timestamp="1766055353995" analysisTimestamp="1766055354000" release="">
   <Project projectName="">
     <Jar>/app</Jar>
     <SrcDir>/app</SrcDir>
   </Project>
   <Errors errors="0" missingClasses="0"></Errors>
-  <FindBugsSummary timestamp="Tue, 16 Dec 2025 13:00:54 +0000" total_classes="0" referenced_classes="0" total_bugs="0" total_size="0" num_packages="0" java_version="1.8.0_362" vm_version="25.362-b09" cpu_seconds="6.42" clock_seconds="1.42" peak_mbytes="157.23" alloc_mbytes="3435.00" gc_seconds="0.10">
+  <FindBugsSummary timestamp="Thu, 18 Dec 2025 10:55:53 +0000" total_classes="0" referenced_classes="0" total_bugs="0" total_size="0" num_packages="0" java_version="1.8.0_372" vm_version="25.372-b07" cpu_seconds="5.44" clock_seconds="1.30" peak_mbytes="156.13" alloc_mbytes="3435.00" gc_seconds="0.09">
     <FindBugsProfile>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="198" invocations="153" avgMicrosecondsPerInvocation="1294" maxMicrosecondsPerInvocation="33278" standardDeviationMicrosecondsPerInvocation="3329"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="51" invocations="33" avgMicrosecondsPerInvocation="1574" maxMicrosecondsPerInvocation="19560" standardDeviationMicrosecondsPerInvocation="3907"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="194" invocations="153" avgMicrosecondsPerInvocation="1272" maxMicrosecondsPerInvocation="30602" standardDeviationMicrosecondsPerInvocation="3215"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="58" invocations="33" avgMicrosecondsPerInvocation="1775" maxMicrosecondsPerInvocation="25647" standardDeviationMicrosecondsPerInvocation="4654"/>
     </FindBugsProfile>
   </FindBugsSummary>
   <ClassFeatures></ClassFeatures>
