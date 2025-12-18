@@ -131,6 +131,25 @@ stage('SCA') {
       }
     }
 
+    stage('Image Analysis') {
+      parallel {
+	stage('Image Linting') {
+	  steps {
+	    container(name: 'docker-tools') {
+	      sh 'dockle docker.io/inikolaou/dso-demo'
+	    }
+	  }
+	}
+	stage('Image Scan') {
+	  steps {
+	    container(name: 'docker-tools') {
+	      sh 'trivy image --timeout 10m --exit-code 1 inikolaou/dso-demo'
+	    }
+	  }
+	}
+      }
+    }
+
     stage('Deploy to Dev') {
       steps {
         sh 'echo done'
