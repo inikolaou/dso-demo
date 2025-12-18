@@ -38,35 +38,6 @@ pipeline {
           }
         }
 
-stage('SCA') {
-  steps {
-    container(name: 'maven') {
-      withEnv(["NVD_API_KEY=${env.NVD_API_KEY}"]) {
-        sh '''
-          curl -L -o dependency-check.zip https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.9/dependency-check-12.1.9-release.zip
-          unzip -q dependency-check.zip
-	  rm -rf ./dependency-check-data
-          ./dependency-check/bin/dependency-check.sh \
-	    --data ./dependency-check-data \
-            --project "demo" \
-            --scan . \
-            --format "ALL" \
-            --out target/dependency-check-report \
-            --nvdApiKey ${NVD_API_KEY} \
-	    --nvdApiDelay 6000 \
-	    --ossIndexUsername ${OSSINDEX_USERNAME} \
-	    --ossIndexPassword ${OSSINDEX_PASSWORD}
-        '''
-      }
-    }
-  }
-  post {
-    always {
-      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report/*', fingerprint: true
-    }
-  }
-}
-
 	stage('Generate SBOM') {
 	  steps {
 	    container(name: 'maven') {
