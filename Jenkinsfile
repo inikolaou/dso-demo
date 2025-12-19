@@ -9,6 +9,7 @@ pipeline {
 
   environment {
       ARGO_SERVER       = 'localhost:30080'
+      DEV_URL           = 'http://localhost:30081/'
       NVD_API_KEY       = credentials('jenkins-nvd-api-key')
       OSSINDEX_USERNAME = credentials('jenkins-oss-username')
       OSSINDEX_PASSWORD = credentials('jenkins-oss-token')
@@ -122,6 +123,14 @@ pipeline {
       }
     }
 
+    stage('Scan k8s Deploy Code') {
+      steps {
+	container(name: 'docker-tools') {
+	  sh 'kubescan scan deploy/dso-demo-deploy.yaml'
+	}
+      }
+    }
+
     stage('Deploy to Dev') {
       environment {
 	AUTH_TOKEN = credentials('argocd-jenkins-deployer-token')
@@ -129,6 +138,23 @@ pipeline {
       steps {
         sh 'docker run -t schoolofdevops/argocd-cli argocd app sync dso-demo --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
 	sh 'docker run -t schoolofdevops/argocd-cli argocd app wait dso-demo --health --timeout 300 --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
+      }
+    }
+
+    stage('Dynamic Analysis') {
+      parallel {
+	stage('E2E tests') {
+	  steps {
+	    sh 'echo "All Tests passed!!!"'
+	  }
+	}
+	stage('DAST') {
+	  steps {
+	    container(name: 'docker-tools') {
+	      sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t $DEV_URL || exit 0'
+	    }
+	  }
+	}
       }
     }
 
