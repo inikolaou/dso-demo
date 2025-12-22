@@ -17,6 +17,16 @@ spec:
     metadata:
       labels:
         app: dso-demo
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/agent-inject-status: 'update'
+        vault.hashicorp.com/role: 'dso-demo'
+        vault.hashicorp.com/agent-inject-secret-database: 'secret/dso-demo/database'
+        vault.hashicorp.com/agent-inject-template-database: |
+          {{- with secret "secret/dso-demo/database" -}}
+            mysql -u {{ .Data.data.username }} -p {{ .Data.data.password }} \
+            -h database:3306 mydb
+          {{- end -}}
     spec:
       containers:
       - image: inikolaou/dso-demo
@@ -38,16 +48,15 @@ spec:
           privileged: false
           allowPrivilegeEscalation: false
           runAsNonRoot: true
-          runAsUser: 11000
         volumeMounts:
         - name: tmp
           mountPath: /tmp
-      automountServiceAccountToken: false
       serviceAccountName: dso-demo
       securityContext:
         seccompProfile:
-          type: RunTimeDefault
+          type: RuntimeDefault
         runAsGroup: 11000
+        runAsUser: 11000
       volumes:
       - name: tmp
         emptyDir: {}
